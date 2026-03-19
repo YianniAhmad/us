@@ -1,726 +1,770 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fatima’s Birthday — Us</title>
+  <title>For My Love ❤️</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS (Animate On Scroll) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg1:#0b1220;
-      --bg2:#0f1a33;
-      --card:#ffffff10;
-      --card2:#ffffff14;
-      --border:#ffffff20;
-      --text:#f3f6ff;
-      --muted:#c7d2fe;
-      --accent:#ffd1e8;
-      --accent2:#ffe9a8;
-      --accent3:#c7f9ff;
-      --shadow: 0 18px 55px rgba(0,0,0,.35);
-      --radius: 18px;
-      --path: rgba(255,255,255,.18);
+    :root {
+      --bg: #f8f3ef;
+      --bg-soft: #fdfaf7;
+      --text: #2e2522;
+      --muted: #7f6b66;
+      --line: rgba(80, 55, 49, 0.12);
+      --accent: #9f6f73;
+      --accent-dark: #7e5458;
+      --card: rgba(255, 255, 255, 0.66);
+      --shadow: 0 20px 60px rgba(78, 54, 50, 0.12);
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
       background:
-        radial-gradient(1200px 900px at 20% 10%, rgba(255,209,232,.18), transparent 60%),
-        radial-gradient(900px 700px at 80% 20%, rgba(255,233,168,.14), transparent 55%),
-        radial-gradient(900px 900px at 55% 85%, rgba(199,249,255,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow-x:hidden;
+        radial-gradient(circle at top left, rgba(255, 220, 226, 0.55), transparent 30%),
+        radial-gradient(circle at top right, rgba(245, 214, 235, 0.45), transparent 28%),
+        linear-gradient(180deg, #fcf8f5 0%, #f6efea 100%);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
-    a{ color:inherit; }
-
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 120px;
+    h1, h2, h3, .font-romance {
+      font-family: 'Cormorant Garamond', serif;
     }
 
-    header{
+    .glass {
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: var(--shadow);
+    }
+
+    .soft-line {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(159,111,115,0.18) 20%,
+        rgba(159,111,115,0.4) 50%,
+        rgba(159,111,115,0.18) 80%,
+        transparent 100%
+      );
+      height: 1px;
+      width: 100%;
+    }
+
+    .hero-glow::before {
+      content: "";
+      position: absolute;
+      inset: -15%;
+      background:
+        radial-gradient(circle, rgba(255, 228, 234, 0.38), transparent 35%),
+        radial-gradient(circle at 70% 30%, rgba(241, 210, 227, 0.28), transparent 28%);
+      filter: blur(40px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .btn-romance {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+    }
+
+    .btn-romance::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+      transition: transform 0.6s ease;
+    }
+
+    .btn-romance:hover::after {
+      transform: translateX(100%);
+    }
+
+    .floating-heart {
+      animation: floatHeart 5s ease-in-out infinite;
+    }
+
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0px); opacity: 0.9; }
+      50% { transform: translateY(-12px); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp 1s ease both;
+    }
+
+    /* Horizontal timeline */
+    .timeline-sticky {
       position: sticky;
       top: 0;
-      z-index: 30;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(11,18,32,.80), rgba(11,18,32,.30));
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .topbar{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
+    .timeline-track {
+      display: flex;
+      gap: 1.5rem;
+      will-change: transform;
+      padding: 0 8vw;
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      line-height:1.1;
-    }
-    .brand .title{
-      font-size: 15px;
-      letter-spacing: .6px;
-      text-transform: uppercase;
-      opacity:.9;
-    }
-    .brand .sub{
-      font-size: 12.5px;
-      opacity:.75;
+    .milestone-card {
+      flex: 0 0 clamp(280px, 38vw, 520px);
+      min-height: 72vh;
+      border-radius: 2rem;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    .nav{
-      display:flex;
-      gap: 10px;
-      align-items:center;
+    .milestone-card img {
+      transition: transform 0.6s ease;
     }
 
-    .pill{
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      cursor:pointer;
-      transition: transform .15s ease, background .15s ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
-
-    .hero{
-      padding: 34px 0 18px;
-      text-align:center;
-    }
-    .hero h1{
-      margin: 18px 0 8px;
-      font-size: clamp(28px, 4vw, 44px);
-      letter-spacing: -0.6px;
-    }
-    .hero p{
-      margin: 0 auto;
-      max-width: 62ch;
-      font-size: 15.5px;
-      line-height: 1.6;
-      opacity: .92;
+    .milestone-card:hover img {
+      transform: scale(1.03);
     }
 
-    .heartline{
-      margin: 14px auto 0;
-      width: min(560px, 95%);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-      position:relative;
-    }
-    .heartline:after{
-      content:"♥";
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform: translate(-50%, -55%);
-      font-size: 14px;
-      color: var(--accent);
-      text-shadow: 0 10px 30px rgba(255,209,232,.55);
-    }
-
-    /* Timeline area */
-    .section{
-      margin-top: 28px;
-      padding-top: 18px;
-    }
-
-    .sectionTitle{
-      display:flex;
-      align-items:baseline;
-      justify-content:center;
-      gap: 10px;
-      margin: 26px 0 18px;
-      text-align:center;
-    }
-    .sectionTitle h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-      opacity:.9;
-    }
-    .sectionTitle span{
-      font-size: 13px;
-      opacity:.75;
-    }
-
-    .timeline{
-      position:relative;
-      margin: 16px auto 0;
-      padding: 20px 0 48px;
-    }
-
-    /* central path */
-    .timeline:before{
-      content:"";
-      position:absolute;
-      left:50%;
-      top:0;
-      bottom:0;
-      width: 4px;
-      transform: translateX(-50%);
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,.06),
-        rgba(255,255,255,.20),
-        rgba(255,255,255,.08)
-      );
-      border-radius: 999px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.05);
-    }
-
-    .milestone{
-      position:relative;
-      display:grid;
-      grid-template-columns: 1fr 70px 1fr;
-      gap: 12px;
-      align-items:center;
-      margin: 18px 0;
-      min-height: 92px;
-    }
-
-    .dot{
-      grid-column: 2 / 3;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.45));
-      box-shadow:
-        0 0 0 8px rgba(255,255,255,.06),
-        0 10px 30px rgba(0,0,0,.35),
-        0 0 22px rgba(255,209,232,.18);
-      justify-self:center;
-      position:relative;
-    }
-    .dot:after{
-      content:"";
-      position:absolute;
-      inset:-22px;
-      border-radius:999px;
-      background: radial-gradient(circle, rgba(255,209,232,.14), transparent 60%);
-      filter: blur(1px);
-      opacity:.9;
-    }
-
-    .card{
-      padding: 14px 14px;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-    }
-    .card .kicker{
-      font-size: 12px;
-      letter-spacing:.6px;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity:.95;
-    }
-    .card .main{
-      font-size: 15px;
-      line-height: 1.45;
-      margin:0;
-    }
-    .card .note{
-      font-size: 13px;
-      opacity:.86;
-      margin:0;
-    }
-
-    .left  .card{ grid-column: 1 / 2; justify-self:end; text-align:right; }
-    .right .card{ grid-column: 3 / 4; justify-self:start; text-align:left; }
-
-    .connector{
-      position:absolute;
-      top:50%;
-      width: calc(50% - 35px);
+    .timeline-progress {
+      position: absolute;
+      left: 8vw;
+      right: 8vw;
+      top: 50%;
       height: 2px;
-      background: linear-gradient(90deg, transparent, var(--path));
-      opacity:.9;
-    }
-    .left  .connector{ right: 50%; }
-    .right .connector{ left: 50%; transform: scaleX(-1); }
-
-    /* Flower garden */
-    .garden{
-      margin-top: 42px;
-      padding: 22px 16px 26px;
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 26px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
+      background: rgba(120, 91, 87, 0.14);
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .gardenHeader{
-      text-align:center;
-      margin-bottom: 14px;
-    }
-    .gardenHeader h3{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .gardenHeader p{
-      margin: 8px auto 0;
-      max-width: 64ch;
-      font-size: 13.8px;
-      line-height: 1.6;
-      opacity:.9;
+    .timeline-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #e9bdc4, #9f6f73);
+      transition: width 0.12s linear;
     }
 
-    .potArea{
-      position:relative;
-      margin: 18px auto 0;
-      width: min(860px, 98%);
-      height: 520px;
+    .milestone-card .content {
+      position: relative;
+      z-index: 2;
     }
 
-    /* pot */
-    .pot{
-      position:absolute;
-      left:50%;
-      bottom: 10px;
-      transform: translateX(-50%);
-      width: 320px;
-      height: 220px;
-      border-radius: 0 0 28px 28px;
-      background:
-        radial-gradient(200px 80px at 50% 10%, rgba(255,255,255,.22), transparent 60%),
-        linear-gradient(180deg, rgba(196,120,88,.9), rgba(125,67,50,.95));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: 0 30px 70px rgba(0,0,0,.45);
-    }
-    .pot:before{
-      content:"";
-      position:absolute;
-      left: 50%;
-      top: -36px;
-      transform: translateX(-50%);
-      width: 360px;
-      height: 70px;
-      border-radius: 34px;
-      background:
-        radial-gradient(260px 40px at 50% 30%, rgba(255,255,255,.22), transparent 65%),
-        linear-gradient(180deg, rgba(214,140,105,.92), rgba(150,82,62,.98));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: 0 16px 30px rgba(0,0,0,.35);
-    }
-    .soil{
-      position:absolute;
-      left: 50%;
-      top: 12px;
-      transform: translateX(-50%);
-      width: 300px;
-      height: 48px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 50% 30%, rgba(30,18,10,.95), rgba(18,10,6,.98));
-      border: 1px solid rgba(255,255,255,.08);
+    .milestone-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(24, 16, 15, 0.68), rgba(24, 16, 15, 0.08));
+      z-index: 1;
     }
 
-    /* lilies */
-    .lily{
-      position:absolute;
-      width: 58px;
-      height: 58px;
-      border: none;
-      background: transparent;
-      cursor:pointer;
-      transform: translate(-50%, -50%);
-      filter: drop-shadow(0 12px 18px rgba(0,0,0,.45));
-      transition: transform .12s ease;
-      padding:0;
-    }
-    .lily:hover{ transform: translate(-50%, -52%) scale(1.03); }
-    .lily:active{ transform: translate(-50%, -50%) scale(.98); }
-
-    /* simple lily using CSS */
-    .lily .petal{
-      position:absolute;
-      left:50%;
-      top:50%;
-      width: 18px;
-      height: 34px;
-      border-radius: 999px 999px 999px 999px;
-      background: linear-gradient(180deg, #fff, rgba(255,255,255,.78));
-      transform-origin: 50% 80%;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.22) inset;
-    }
-    .lily .petal.p1{ transform: translate(-50%,-70%) rotate(0deg); }
-    .lily .petal.p2{ transform: translate(-50%,-70%) rotate(60deg); }
-    .lily .petal.p3{ transform: translate(-50%,-70%) rotate(120deg); }
-    .lily .petal.p4{ transform: translate(-50%,-70%) rotate(180deg); }
-    .lily .petal.p5{ transform: translate(-50%,-70%) rotate(240deg); }
-    .lily .petal.p6{ transform: translate(-50%,-70%) rotate(300deg); }
-
-    .lily .center{
-      position:absolute;
-      left:50%;
-      top:50%;
-      width: 14px;
-      height: 14px;
-      transform: translate(-50%,-50%);
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #ffe9a8, #ffcc4d);
-      box-shadow: 0 0 18px rgba(255,233,168,.25);
-    }
-    .lily .hint{
-      position:absolute;
-      left:50%;
-      top: 76%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      opacity:.75;
-      letter-spacing:.2px;
-      text-shadow: 0 8px 24px rgba(0,0,0,.5);
-      pointer-events:none;
+    .milestone-card .photo-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
     }
 
-    /* Soft color variants */
-    .lily.yellow .petal{ background: linear-gradient(180deg, #fff, rgba(255,233,168,.70)); }
-    .lily.pink   .petal{ background: linear-gradient(180deg, #fff, rgba(255,209,232,.74)); }
-    .lily.white  .petal{ background: linear-gradient(180deg, #fff, rgba(255,255,255,.72)); }
-
-    /* stems */
-    .stem{
-      position:absolute;
-      left:50%;
-      bottom: 170px;
-      width: 6px;
-      height: 200px;
-      transform: translateX(-50%);
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(120,255,170,.0), rgba(86,205,140,.65), rgba(40,140,90,.85));
-      filter: blur(.1px);
-      opacity:.85;
-    }
-    .leaf{
-      position:absolute;
-      width: 56px;
-      height: 18px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(86,205,140,.12), rgba(86,205,140,.75), rgba(40,140,90,.85));
-      opacity:.7;
-      filter: blur(.1px);
+    .milestone-card.revealed {
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
     }
 
-    /* Modal */
-    .modal{
-      position: fixed;
-      inset:0;
-      display:none;
-      place-items:center;
-      background: rgba(0,0,0,.55);
-      z-index: 100;
-      padding: 18px;
-    }
-    .modal.open{ display:grid; }
-    .modalCard{
-      width: min(680px, 100%);
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      box-shadow: 0 30px 80px rgba(0,0,0,.55);
-      overflow:hidden;
-      position:relative;
-    }
-    .modalTop{
-      padding: 14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
-    }
-    .modalTop .label{
-      font-size: 13px;
-      opacity:.9;
-      letter-spacing:.3px;
-    }
-    .closeBtn{
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.07);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 8px 10px;
-      cursor:pointer;
-    }
-    .closeBtn:hover{ background: rgba(255,255,255,.10); }
-
-    .modalBody{
-      padding: 18px 16px 20px;
-      line-height: 1.7;
-      font-size: 15px;
-      white-space: pre-wrap;
+    .milestone-card.hidden-card {
+      opacity: 0.35;
+      transform: translateY(26px) scale(0.98);
+      transition: all 0.55s ease;
     }
 
-    .footerHint{
-      margin-top: 10px;
-      text-align:center;
-      font-size: 12.5px;
-      opacity:.78;
+    .reason-card {
+      min-height: 200px;
     }
 
-    /* Responsive */
-    @media (max-width: 760px){
-      .milestone{
-        grid-template-columns: 34px 1fr;
-        gap: 10px;
+    .music-toggle {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .section-heading {
+      letter-spacing: 0.02em;
+    }
+
+    .mini-star {
+      opacity: 0.35;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .mini-star:nth-child(2) { animation-delay: 0.6s; }
+    .mini-star:nth-child(3) { animation-delay: 1.2s; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.15); }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-sticky {
+        position: relative;
+        height: auto;
+        display: block;
+        padding: 2rem 0 1rem;
       }
-      .timeline:before{ left: 17px; transform:none; }
-      .dot{ grid-column: 1 / 2; justify-self:center; }
-      .left .card, .right .card{ grid-column: 2 / 3; justify-self:stretch; text-align:left; }
-      .connector{ display:none; }
-      .potArea{ height: 560px; }
-      .pot{ width: 280px; }
-      .pot:before{ width: 315px; }
-      .soil{ width: 260px; }
+
+      .timeline-track {
+        transform: none !important;
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+
+      .milestone-card {
+        flex: unset;
+        min-height: 72vh;
+      }
+
+      .timeline-progress {
+        display: none;
+      }
+
+      .timeline-section {
+        height: auto !important;
+      }
     }
   </style>
 </head>
+<body class="antialiased">
 
-<body>
-  <header>
-    <div class="topbar">
-      <div class="brand">
-        <div class="title">Fatima’s Birthday</div>
-        <div class="sub">A little walk through “Us”</div>
+  <!-- =========================
+       EASY EDIT CONFIG
+  ========================== -->
+  <script>
+    const siteConfig = {
+      herName: "Fatima my Jaanu",
+      songFile: "favorite-song.mp3"
+    };
+  </script>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop>
+    <source src="favorite-song.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Music Toggle -->
+  <button
+    id="musicToggle"
+    class="music-toggle fixed top-5 right-5 z-50 flex items-center gap-2 rounded-full border border-white/40 bg-white/40 px-4 py-2 text-sm text-stone-700 shadow-lg transition hover:scale-105 hover:bg-white/60"
+    aria-label="Toggle music"
+  >
+    <i data-lucide="volume-2" class="w-4 h-4"></i>
+    <span id="musicLabel">Play Music</span>
+  </button>
+
+  <!-- HERO -->
+  <section class="hero-glow relative min-h-screen flex items-center justify-center px-6">
+    <div class="absolute inset-0 opacity-40 pointer-events-none">
+      <div class="absolute top-[18%] left-[14%] text-rose-300 floating-heart">✦</div>
+      <div class="absolute top-[28%] right-[18%] text-pink-300 floating-heart" style="animation-delay: 1s;">♡</div>
+      <div class="absolute bottom-[20%] left-[20%] text-rose-200 floating-heart" style="animation-delay: 2s;">✦</div>
+      <div class="absolute bottom-[26%] right-[22%] text-pink-200 floating-heart" style="animation-delay: 1.4s;">♡</div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl text-center">
+      <p class="mb-4 text-sm uppercase tracking-[0.35em] text-stone-500" data-aos="fade-up">
+        A Birthday Love Letter
+      </p>
+
+      <h1 id="heroName" class="font-romance text-6xl md:text-8xl font-semibold leading-none text-stone-800" data-aos="fade-up" data-aos-delay="100">
+        For my baby ❤️
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-2xl text-base md:text-xl leading-relaxed text-stone-600" data-aos="fade-up" data-aos-delay="200">
+        Our timeline together, my love, for your special day.
+      </p>
+
+      <div class="mt-10 flex items-center justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
+        <a
+          href="#timeline"
+          class="btn-romance inline-flex items-center gap-2 rounded-full bg-stone-900 px-7 py-3 text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-stone-800"
+        >
+          <span>Start Our Story</span>
+          <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </a>
       </div>
-      <div class="nav">
-        <div class="pill" data-scroll="#us">Us</div>
-        <div class="pill" data-scroll="#garden">Lilies</div>
+
+      <div class="mt-16 flex items-center justify-center gap-4 text-stone-400">
+        <span class="mini-star">✦</span>
+        <span class="h-px w-10 bg-stone-300"></span>
+        <span class="mini-star">♡</span>
+        <span class="h-px w-10 bg-stone-300"></span>
+        <span class="mini-star">✦</span>
       </div>
     </div>
-  </header>
+  </section>
 
-  <div class="wrap">
-    <section class="hero" id="top">
-      <div class="heartline"></div>
-      <h1>Happy Birthday, Fatima 🌸</h1>
-      <p>
-        This is a small path we can walk down together — moments we built, memories we kept,
-        and at the end… lilies you can tap, each holding something I wrote for you.
+  <!-- INTRO TO TIMELINE -->
+  <section class="px-6 py-20 md:py-28">
+    <div class="mx-auto max-w-4xl text-center" data-aos="fade-up">
+      <p class="mb-3 text-sm uppercase tracking-[0.32em] text-stone-500">Our Journey</p>
+      <h2 class="section-heading font-romance text-5xl md:text-6xl font-semibold text-stone-800">
+        A love story told through moments
+      </h2>
+      <div class="soft-line mx-auto mt-8 max-w-md"></div>
+      <p class="mx-auto mt-8 max-w-2xl text-stone-600 leading-relaxed">
+        Every memory, every season, every challenge, every laugh —
+        all of it became part of us. Scroll through our little timeline.
       </p>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" id="us">
-      <div class="sectionTitle">
-        <h2>Us</h2>
-        <span>scroll down the trail</span>
+  <!-- TIMELINE -->
+  <section id="timeline" class="timeline-section relative" style="height: 500vh;">
+    <div class="timeline-sticky">
+      <div class="timeline-progress hidden md:block">
+        <div id="timelineProgressFill" class="timeline-progress-fill"></div>
       </div>
 
-      <div class="timeline" id="timeline">
-        <!-- Replace these milestones with your real ones -->
-        <div class="milestone left">
-          <div class="connector"></div>
-          <div class="card">
-            <div class="kicker">Milestone 01</div>
-            <p class="main"><strong>The first time I really noticed you.</strong></p>
-            <p class="note">Add your date / place / detail here.</p>
-          </div>
-          <div class="dot"></div>
-        </div>
+      <div id="timelineTrack" class="timeline-track">
 
-        <div class="milestone right">
-          <div class="connector"></div>
-          <div class="card">
-            <div class="kicker">Milestone 02</div>
-            <p class="main"><strong>Our first proper conversation.</strong></p>
-            <p class="note">What you felt, what you remember, a tiny detail.</p>
+        <!-- 1 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo1.jpg" alt="Jan 2025 - The Spark" class="h-full w-full object-cover" />
           </div>
-          <div class="dot"></div>
-        </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span class="text-sm">Jan 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">The Spark</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              The beginning of something beautiful — the moment we met and something quietly
+              changed in my world.
+            </p>
+          </div>
+        </article>
 
-        <div class="milestone left">
-          <div class="connector"></div>
-          <div class="card">
-            <div class="kicker">Milestone 03</div>
-            <p class="main"><strong>The day I knew I wanted you forever.</strong></p>
-            <p class="note">Drop in the moment. Keep it sweet + specific.</p>
+        <!-- 2 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo2.jpg" alt="Feb 2025 - Making it Official" class="h-full w-full object-cover" />
           </div>
-          <div class="dot"></div>
-        </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="heart" class="w-4 h-4"></i>
+              <span class="text-sm">Feb 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">Making it Official</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              The moment we chose each other properly. Simple, special, and the start of us.
+            </p>
+          </div>
+        </article>
 
-        <div class="milestone right">
-          <div class="connector"></div>
-          <div class="card">
-            <div class="kicker">Milestone 04</div>
-            <p class="main"><strong>A memory that still makes me smile.</strong></p>
-            <p class="note">Dinner? A walk? A laugh? Your choice.</p>
+        <!-- 3 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo3.jpg" alt="March 2025 - Our first birthday together" class="h-full w-full object-cover" />
           </div>
-          <div class="dot"></div>
-        </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="cake" class="w-4 h-4"></i>
+              <span class="text-sm">March 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">Our First Birthday Together</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              A first that meant more than just a date on the calendar — it became one of our memories.
+            </p>
+          </div>
+        </article>
 
-        <div class="milestone left">
-          <div class="connector"></div>
-          <div class="card">
-            <div class="kicker">Milestone 05</div>
-            <p class="main"><strong>Today.</strong></p>
-            <p class="note">Write a line about how grateful you are for her.</p>
+        <!-- 4 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo4.jpg" alt="May 2025 - The Grind" class="h-full w-full object-cover" />
           </div>
-          <div class="dot"></div>
-        </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="book-heart" class="w-4 h-4"></i>
+              <span class="text-sm">May 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">The Grind</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              Through A-Levels, uni stress, pressure, and tired days — we kept showing up for each other.
+            </p>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo5.jpg" alt="June - Sept 2025 - Our Digital Summer" class="h-full w-full object-cover" />
+          </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="monitor-heart" class="w-4 h-4"></i>
+              <span class="text-sm">June – Sept 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">Our Digital Summer</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              Long distance never changed what we had. We cooked together, laughed together,
+              and shared every little moment online.
+            </p>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo6.jpg" alt="Late 2025 - New Chapters" class="h-full w-full object-cover" />
+          </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="briefcase-business" class="w-4 h-4"></i>
+              <span class="text-sm">Late 2025</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">New Chapters</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              I started work, you started second year uni, and through all the change,
+              you were still right there by my side.
+            </p>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo7.jpg" alt="Feb 2026 - One Year Strong" class="h-full w-full object-cover" />
+          </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="gem" class="w-4 h-4"></i>
+              <span class="text-sm">Feb 2026</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">One Year Strong</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              One whole year of love, patience, loyalty, comfort, growth, and choosing each other.
+            </p>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="milestone-card glass hidden-card">
+          <div class="photo-wrap">
+            <img src="photo8.jpg" alt="March 2026 - Happy Birthday!" class="h-full w-full object-cover" />
+          </div>
+          <div class="content flex h-full flex-col justify-end">
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white/90 backdrop-blur">
+              <i data-lucide="gift" class="w-4 h-4"></i>
+              <span class="text-sm">March 2026</span>
+            </div>
+            <h3 class="font-romance text-4xl md:text-5xl text-white">Happy Birthday!</h3>
+            <p class="mt-4 max-w-md text-sm md:text-base leading-relaxed text-white/85">
+              My love, thank you for being my peace, my happiness, and one of the best parts of my life.
+              Happy birthday, beautiful. I love you more than words can hold.
+            </p>
+          </div>
+        </article>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" id="garden">
-      <div class="sectionTitle">
-        <h2>20 Lilies</h2>
-        <span>tap each one</span>
+  <!-- REASONS SECTION -->
+  <section id="reasons" class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center" data-aos="fade-up">
+        <p class="mb-3 text-sm uppercase tracking-[0.32em] text-stone-500">Page 2</p>
+        <h2 class="section-heading font-romance text-5xl md:text-6xl font-semibold text-stone-800">
+          25 Reasons Why I Love You
+        </h2>
+        <p class="mx-auto mt-6 max-w-2xl text-stone-600 leading-relaxed">
+          Not that I could ever fit all of them into one page…
+          but here are twenty-five pieces of my heart for you.
+        </p>
       </div>
 
-      <div class="garden">
-        <div class="gardenHeader">
-          <h3>The Lily Pot</h3>
-          <p>
-            Each lily is a note. Tap one — and it opens a message I wrote for you.
-            (You can edit the 20 messages in the JavaScript near the bottom.)
+      <div class="mt-14 grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
+        <div class="reason-card glass rounded-[2rem] p-8 md:p-10" data-aos="fade-up" data-aos-delay="100">
+          <div class="flex items-center gap-3 text-stone-500">
+            <i data-lucide="quote" class="w-5 h-5"></i>
+            <span class="text-sm uppercase tracking-[0.25em]">Current Reason</span>
+          </div>
+
+          <div class="mt-8">
+            <p id="reasonCounter" class="text-sm text-stone-500">Reason 1 of 25</p>
+            <h3 id="reasonText" class="mt-4 font-romance text-4xl md:text-5xl leading-tight text-stone-800">
+              I love how you make even ordinary days feel special.
+            </h3>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <button
+              id="generateReason"
+              class="btn-romance inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-white transition hover:-translate-y-0.5 hover:bg-stone-800"
+            >
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+              Generate a Reason
+            </button>
+
+            <button
+              id="randomReason"
+              class="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/70 px-6 py-3 text-stone-700 transition hover:bg-white"
+            >
+              <i data-lucide="shuffle" class="w-4 h-4"></i>
+              Surprise Me
+            </button>
+          </div>
+        </div>
+
+        <div class="glass rounded-[2rem] p-8 md:p-10" data-aos="fade-up" data-aos-delay="200">
+          <p class="text-sm uppercase tracking-[0.25em] text-stone-500">Little Note</p>
+          <h3 class="mt-5 font-romance text-4xl text-stone-800">For your birthday</h3>
+          <p class="mt-5 text-stone-600 leading-relaxed">
+            This page is only a small attempt to show you how much you mean to me.
+            You’ve been part of my laughter, my peace, my strength, and my happiest memories.
+          </p>
+          <p class="mt-4 text-stone-600 leading-relaxed">
+            Today is about celebrating you — your heart, your kindness, your beauty,
+            and the way you make life brighter just by being in it.
+          </p>
+          <div class="soft-line mt-8"></div>
+          <p class="mt-8 font-romance text-3xl text-stone-800">
+            Happy Birthday, my love ❤️
           </p>
         </div>
-
-        <div class="potArea" id="potArea">
-          <!-- decorative stems/leaves -->
-          <div class="stem" style="left: 33%; height: 210px;"></div>
-          <div class="stem" style="left: 46%; height: 235px;"></div>
-          <div class="stem" style="left: 57%; height: 220px;"></div>
-          <div class="stem" style="left: 68%; height: 245px;"></div>
-
-          <div class="leaf" style="left: 24%; bottom: 235px; transform: rotate(-18deg);"></div>
-          <div class="leaf" style="left: 60%; bottom: 265px; transform: rotate(12deg);"></div>
-          <div class="leaf" style="left: 48%; bottom: 215px; transform: rotate(4deg); width: 70px;"></div>
-
-          <!-- lilies injected by JS -->
-
-          <div class="pot">
-            <div class="soil"></div>
-          </div>
-        </div>
-
-        <div class="footerHint">Tip: If you want, replace the background and add a soft song via an <code>&lt;audio&gt;</code> tag.</div>
       </div>
-    </section>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalLabel">
-      <div class="modalTop">
-        <div class="label" id="modalLabel">A little note 🌸</div>
-        <button class="closeBtn" id="closeBtn">Close</button>
-      </div>
-      <div class="modalBody" id="modalBody"></div>
     </div>
-  </div>
+  </section>
+
+  <!-- FINAL MESSAGE -->
+  <section class="px-6 pb-20 md:pb-28">
+    <div class="mx-auto max-w-4xl glass rounded-[2.2rem] px-8 py-14 text-center md:px-14 md:py-20" data-aos="zoom-in-up">
+      <p class="text-sm uppercase tracking-[0.32em] text-stone-500">Forever Us</p>
+      <h2 class="mt-5 font-romance text-5xl md:text-6xl text-stone-800">
+        Thank you for being you
+      </h2>
+      <p class="mx-auto mt-8 max-w-2xl text-stone-600 leading-relaxed">
+        For every laugh, every conversation, every late-night call, every bit of patience,
+        every prayer, every comforting word, every small effort that meant everything —
+        thank you. I cherish you deeply.
+      </p>
+      <p class="mx-auto mt-6 max-w-2xl text-stone-600 leading-relaxed">
+        I hope this little website makes you smile the way you make me smile.
+      </p>
+      <div class="mt-10 font-romance text-3xl md:text-4xl text-stone-800">
+        With all my love,<br />
+        Your Husband ❤️
+      </div>
+    </div>
+  </section>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
-    // Smooth scroll pills
-    document.querySelectorAll("[data-scroll]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const target = document.querySelector(btn.getAttribute("data-scroll"));
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+    // Apply editable name + song path
+    document.getElementById("heroName").textContent = `For ${siteConfig.herName} ❤️`;
+    document.querySelector("#bgMusic source").src = siteConfig.songFile;
+    document.getElementById("bgMusic").load();
+
+    // Lucide icons
+    lucide.createIcons();
+
+    // AOS
+    AOS.init({
+      duration: 900,
+      once: true,
+      offset: 80
     });
 
-    // === 20 lily messages (REPLACE THESE WITH YOUR REAL POEMS/NOTES) ===
-    const lilyMessages = [
-      "Lily 1:\nReplace this with your first message.",
-      "Lily 2:\nReplace this with your second message.",
-      "Lily 3:\nReplace this with your third message.",
-      "Lily 4:\n…",
-      "Lily 5:\n…",
-      "Lily 6:\n…",
-      "Lily 7:\n…",
-      "Lily 8:\n…",
-      "Lily 9:\n…",
-      "Lily 10:\n…",
-      "Lily 11:\n…",
-      "Lily 12:\n…",
-      "Lily 13:\n…",
-      "Lily 14:\n…",
-      "Lily 15:\n…",
-      "Lily 16:\n…",
-      "Lily 17:\n…",
-      "Lily 18:\n…",
-      "Lily 19:\n…",
-      "Lily 20:\nA final note at the end — something powerful."
-    ];
+    // Music toggle
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+    const musicLabel = document.getElementById("musicLabel");
+    let isPlaying = false;
 
-    // Positions for 20 lilies in the potArea (percent-based; tweak if you want)
-    const lilyPositions = [
-      {x: 20, y: 32},{x: 32, y: 26},{x: 44, y: 30},{x: 56, y: 26},{x: 68, y: 31},
-      {x: 80, y: 34},{x: 24, y: 44},{x: 36, y: 40},{x: 48, y: 44},{x: 60, y: 40},
-      {x: 72, y: 44},{x: 84, y: 46},{x: 28, y: 56},{x: 40, y: 54},{x: 52, y: 58},
-      {x: 64, y: 54},{x: 76, y: 58},{x: 34, y: 66},{x: 54, y: 70},{x: 74, y: 66}
-    ];
-
-    const colorCycle = ["white", "yellow", "pink"]; // white/yellow/pink lilies
-
-    const potArea = document.getElementById("potArea");
-    const modal = document.getElementById("modal");
-    const modalBody = document.getElementById("modalBody");
-    const closeBtn = document.getElementById("closeBtn");
-
-    function openModal(text){
-      modalBody.textContent = text;
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-    }
-    function closeModal(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
+    function setMusicUI(playing) {
+      musicLabel.textContent = playing ? "Mute Music" : "Play Music";
+      musicToggle.innerHTML = `
+        <i data-lucide="${playing ? 'volume-2' : 'volume-x'}" class="w-4 h-4"></i>
+        <span id="musicLabel">${playing ? 'Mute Music' : 'Play Music'}</span>
+      `;
+      lucide.createIcons();
     }
 
-    closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
-    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+    musicToggle.addEventListener("click", async () => {
+      try {
+        if (!isPlaying) {
+          await bgMusic.play();
+          bgMusic.volume = 0.35;
+          isPlaying = true;
+        } else {
+          bgMusic.muted = !bgMusic.muted;
+        }
 
-    // Create lilies
-    lilyPositions.forEach((pos, i) => {
-      const btn = document.createElement("button");
-      const variant = colorCycle[i % colorCycle.length];
-      btn.className = `lily ${variant}`;
-      btn.style.left = pos.x + "%";
-      btn.style.top = pos.y + "%";
-      btn.setAttribute("type", "button");
-      btn.setAttribute("aria-label", `Open lily message ${i+1}`);
-
-      // petals
-      for(let p=1; p<=6; p++){
-        const petal = document.createElement("span");
-        petal.className = `petal p${p}`;
-        btn.appendChild(petal);
+        if (bgMusic.muted) {
+          setMusicUI(false);
+        } else {
+          setMusicUI(true);
+        }
+      } catch (err) {
+        console.log("Autoplay blocked until user interaction.");
       }
-      const center = document.createElement("span");
-      center.className = "center";
-      btn.appendChild(center);
-
-      const hint = document.createElement("span");
-      hint.className = "hint";
-      hint.textContent = (i+1);
-      btn.appendChild(hint);
-
-      btn.addEventListener("click", () => openModal(lilyMessages[i] || `Lily ${i+1}`));
-      potArea.appendChild(btn);
     });
+
+    // Start playing music when user clicks anywhere meaningful first time
+    document.addEventListener("click", async function autoStartMusic() {
+      if (!isPlaying) {
+        try {
+          await bgMusic.play();
+          bgMusic.volume = 0.35;
+          isPlaying = true;
+          bgMusic.muted = false;
+          setMusicUI(true);
+        } catch (e) {}
+      }
+      document.removeEventListener("click", autoStartMusic);
+    }, { once: true });
+
+    // 25 Reasons
+    const reasons = [
+      "I love how you make even ordinary days feel special.",
+      "I love your smile — it genuinely changes my whole mood.",
+      "I love how safe and calm I feel with you.",
+      "I love the way you care, deeply and sincerely.",
+      "I love how beautiful you are, inside and out.",
+      "I love how you support me through stressful seasons.",
+      "I love that you celebrate my wins like they’re your own.",
+      "I love how patient you’ve been with me.",
+      "I love how we can talk for hours and never run out of things to say.",
+      "I love the way you make distance feel smaller.",
+      "I love how thoughtful you are in little things.",
+      "I love that you understand me in ways others don’t.",
+      "I love how you make me want to become better.",
+      "I love how gentle your heart is.",
+      "I love how you make me laugh, even on hard days.",
+      "I love how loyal and real you are.",
+      "I love every memory we’ve built together.",
+      "I love how being with you feels like home.",
+      "I love your strength, even when things are heavy.",
+      "I love the way you make me feel chosen.",
+      "I love how we’ve grown together through every season.",
+      "I love your little habits and the tiny things that make you, you.",
+      "I love how you bring peace into my life.",
+      "I love that loving you feels natural.",
+      "I love you because you are you — and that alone means everything to me."
+    ];
+
+    const reasonText = document.getElementById("reasonText");
+    const reasonCounter = document.getElementById("reasonCounter");
+    const generateReasonBtn = document.getElementById("generateReason");
+    const randomReasonBtn = document.getElementById("randomReason");
+
+    let currentReasonIndex = 0;
+
+    function showReason(index) {
+      reasonText.style.opacity = 0;
+      reasonText.style.transform = "translateY(10px)";
+
+      setTimeout(() => {
+        reasonText.textContent = reasons[index];
+        reasonCounter.textContent = `Reason ${index + 1} of ${reasons.length}`;
+        reasonText.style.opacity = 1;
+        reasonText.style.transform = "translateY(0)";
+      }, 180);
+    }
+
+    reasonText.style.transition = "all 0.35s ease";
+
+    generateReasonBtn.addEventListener("click", () => {
+      currentReasonIndex = (currentReasonIndex + 1) % reasons.length;
+      showReason(currentReasonIndex);
+    });
+
+    randomReasonBtn.addEventListener("click", () => {
+      let next = Math.floor(Math.random() * reasons.length);
+      if (next === currentReasonIndex && reasons.length > 1) {
+        next = (next + 1) % reasons.length;
+      }
+      currentReasonIndex = next;
+      showReason(currentReasonIndex);
+    });
+
+    // Horizontal scroll timeline
+    const timelineSection = document.querySelector(".timeline-section");
+    const timelineTrack = document.getElementById("timelineTrack");
+    const progressFill = document.getElementById("timelineProgressFill");
+    const cards = document.querySelectorAll(".milestone-card");
+
+    function updateTimelineScroll() {
+      if (window.innerWidth <= 768) {
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.85) {
+            card.classList.add("revealed");
+          }
+        });
+        return;
+      }
+
+      const rect = timelineSection.getBoundingClientRect();
+      const sectionHeight = timelineSection.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      const scrollProgress = Math.min(
+        Math.max(-rect.top / (sectionHeight - viewportHeight), 0),
+        1
+      );
+
+      const maxTranslate = timelineTrack.scrollWidth - window.innerWidth;
+      timelineTrack.style.transform = `translateX(-${scrollProgress * maxTranslate}px)`;
+
+      if (progressFill) {
+        progressFill.style.width = `${scrollProgress * 100}%`;
+      }
+
+      cards.forEach((card, index) => {
+        const cardCenter = index / Math.max(cards.length - 1, 1);
+        if (scrollProgress >= cardCenter - 0.09) {
+          card.classList.add("revealed");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateTimelineScroll);
+    window.addEventListener("resize", updateTimelineScroll);
+    window.addEventListener("load", updateTimelineScroll);
   </script>
 </body>
 </html>
