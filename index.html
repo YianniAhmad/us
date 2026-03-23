@@ -238,6 +238,9 @@
       justify-content: center;
       margin: 0 auto;
       touch-action: none;
+      padding: 0.75rem;
+      border-radius: 1.5rem;
+      background: rgba(255,255,255,0.35);
     }
 
     .maze-cell {
@@ -249,6 +252,7 @@
       justify-content: center;
       font-size: 1.15rem;
       user-select: none;
+      -webkit-user-select: none;
       transition: all 0.2s ease;
     }
 
@@ -278,29 +282,54 @@
       box-shadow: 0 10px 25px rgba(214, 130, 155, 0.2);
     }
 
+    .maze-hint {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+
     .maze-controls {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(3, 72px);
+      grid-template-rows: repeat(2, 72px);
+      gap: 0.85rem;
+      justify-content: center;
       align-items: center;
-      gap: 0.75rem;
     }
 
     .maze-btn {
-      width: 54px;
-      height: 54px;
+      width: 72px;
+      height: 72px;
       border-radius: 9999px;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.85);
       border: 1px solid rgba(120, 91, 87, 0.12);
       color: var(--text);
-      font-size: 1.25rem;
+      font-size: 1.6rem;
       box-shadow: var(--shadow);
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .maze-btn:hover,
+    .maze-btn:focus {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 14px 32px rgba(78, 54, 50, 0.16);
+      outline: none;
     }
 
     .maze-btn:active {
-      transform: scale(0.96);
-      background: rgba(255,255,255,0.95);
+      transform: scale(0.95);
+      background: rgba(255,255,255,1);
     }
+
+    .maze-btn-up { grid-column: 2; grid-row: 1; }
+    .maze-btn-left { grid-column: 1; grid-row: 2; }
+    .maze-btn-down { grid-column: 2; grid-row: 2; }
+    .maze-btn-right { grid-column: 3; grid-row: 2; }
 
     @media (max-width: 768px) {
       .timeline-sticky {
@@ -336,6 +365,18 @@
         width: 34px;
         height: 34px;
         font-size: 1rem;
+      }
+
+      .maze-controls {
+        grid-template-columns: repeat(3, 64px);
+        grid-template-rows: repeat(2, 64px);
+        gap: 0.7rem;
+      }
+
+      .maze-btn {
+        width: 64px;
+        height: 64px;
+        font-size: 1.35rem;
       }
     }
   </style>
@@ -435,7 +476,6 @@
 
       <div id="timelineTrack" class="timeline-track">
 
-        <!-- 1 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo1.jpg" alt="Jan 2025 - The Spark" class="h-full w-full object-cover" />
@@ -453,7 +493,6 @@
           </div>
         </article>
 
-        <!-- 2 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo2.jpg" alt="Feb 2025 - Making it Official" class="h-full w-full object-cover" />
@@ -470,7 +509,6 @@
           </div>
         </article>
 
-        <!-- 3 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo3.jpg" alt="March 2025 - Our first birthday together" class="h-full w-full object-cover" />
@@ -488,7 +526,6 @@
           </div>
         </article>
 
-        <!-- 4 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo4.jpg" alt="May 2025 - The Grind" class="h-full w-full object-cover" />
@@ -505,7 +542,6 @@
           </div>
         </article>
 
-        <!-- 5 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo5.jpg" alt="June - Sept 2025 - Our Digital Summer" class="h-full w-full object-cover" />
@@ -523,7 +559,6 @@
           </div>
         </article>
 
-        <!-- 6 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo6.jpg" alt="Late 2025 - New Chapters" class="h-full w-full object-cover" />
@@ -541,7 +576,6 @@
           </div>
         </article>
 
-        <!-- 7 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo7.jpg" alt="Feb 2026 - One Year Strong" class="h-full w-full object-cover" />
@@ -559,7 +593,6 @@
           </div>
         </article>
 
-        <!-- 8 -->
         <article class="milestone-card glass hidden-card">
           <div class="photo-wrap">
             <img src="photo8.jpg" alt="March 2026 - Happy Birthday!" class="h-full w-full object-cover" />
@@ -668,12 +701,15 @@
           <div class="mb-5 text-center">
             <p class="text-sm uppercase tracking-[0.22em] text-stone-500">Controls</p>
             <p class="mt-2 text-stone-600">
-              Use <span class="font-semibold">arrow keys</span> or <span class="font-semibold">WASD</span> to move
+              Use <span class="font-semibold">arrow keys</span> / <span class="font-semibold">WASD</span>,
+              tap the buttons, or <span class="font-semibold">swipe the maze</span> on mobile
             </p>
           </div>
 
           <div id="mazeWrapper" class="w-full flex flex-col items-center">
-            <div id="mazeBoard" class="maze-board"></div>
+            <div id="mazeBoard" class="maze-board" aria-label="Maze game"></div>
+
+            <p class="maze-hint">On phone: swipe anywhere on the maze to move 💗</p>
 
             <p id="mazeStatus" class="mt-5 text-center text-stone-600">
               Start at the heart and make your way to the gift 💗
@@ -687,14 +723,11 @@
               Reset Maze
             </button>
 
-            <!-- Mobile controls -->
-            <div class="maze-controls mt-8 md:hidden">
-              <button class="maze-btn" data-dir="up" type="button">↑</button>
-              <div class="flex gap-3">
-                <button class="maze-btn" data-dir="left" type="button">←</button>
-                <button class="maze-btn" data-dir="down" type="button">↓</button>
-                <button class="maze-btn" data-dir="right" type="button">→</button>
-              </div>
+            <div class="maze-controls mt-8">
+              <button class="maze-btn maze-btn-up" data-dir="up" type="button" aria-label="Move up">↑</button>
+              <button class="maze-btn maze-btn-left" data-dir="left" type="button" aria-label="Move left">←</button>
+              <button class="maze-btn maze-btn-down" data-dir="down" type="button" aria-label="Move down">↓</button>
+              <button class="maze-btn maze-btn-right" data-dir="right" type="button" aria-label="Move right">→</button>
             </div>
           </div>
         </div>
@@ -784,7 +817,6 @@
       }
     });
 
-    // Try to start after first user interaction anywhere on page
     function initMusicOnce() {
       if (!hasStartedMusic) {
         startMusic();
@@ -888,7 +920,7 @@
         1
       );
 
-      const maxTranslate = timelineTrack.scrollWidth - window.innerWidth;
+      const maxTranslate = Math.max(timelineTrack.scrollWidth - window.innerWidth, 0);
       timelineTrack.style.transform = `translateX(-${scrollProgress * maxTranslate}px)`;
 
       if (progressFill) {
@@ -928,8 +960,8 @@
     const mazeControlButtons = document.querySelectorAll(".maze-btn");
 
     let playerPos = { row: 1, col: 1 };
-    let startPos = { row: 1, col: 1 };
-    let goalPos = { row: 7, col: 7 };
+    const startPos = { row: 1, col: 1 };
+    const goalPos = { row: 7, col: 7 };
     let mazeWon = false;
 
     function renderMaze() {
@@ -1028,9 +1060,58 @@
       button.addEventListener("click", () => {
         movePlayer(button.dataset.dir);
       });
+
+      button.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        movePlayer(button.dataset.dir);
+      }, { passive: false });
     });
 
     resetMazeBtn.addEventListener("click", resetMaze);
+
+    // Swipe controls for mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    const swipeThreshold = 24;
+
+    mazeBoard.addEventListener("touchstart", (e) => {
+      const touch = e.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    }, { passive: true });
+
+    mazeBoard.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+    }, { passive: false });
+
+    mazeBoard.addEventListener("touchend", (e) => {
+      const touch = e.changedTouches[0];
+      touchEndX = touch.clientX;
+      touchEndY = touch.clientY;
+
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      if (Math.abs(deltaX) < swipeThreshold && Math.abs(deltaY) < swipeThreshold) {
+        return;
+      }
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+          movePlayer("right");
+        } else {
+          movePlayer("left");
+        }
+      } else {
+        if (deltaY > 0) {
+          movePlayer("down");
+        } else {
+          movePlayer("up");
+        }
+      }
+    }, { passive: true });
 
     renderMaze();
   </script>
