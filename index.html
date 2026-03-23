@@ -231,6 +231,77 @@
       50% { opacity: 0.65; transform: scale(1.15); }
     }
 
+    /* Maze */
+    .maze-board {
+      display: grid;
+      gap: 6px;
+      justify-content: center;
+      margin: 0 auto;
+      touch-action: none;
+    }
+
+    .maze-cell {
+      width: 42px;
+      height: 42px;
+      border-radius: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .maze-wall {
+      background: linear-gradient(135deg, #8a6768, #6f5053);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .maze-path {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(120, 91, 87, 0.08);
+    }
+
+    .maze-start {
+      background: linear-gradient(135deg, #ffd7e2, #f8b9c9);
+      box-shadow: 0 10px 25px rgba(209, 126, 149, 0.18);
+    }
+
+    .maze-goal {
+      background: linear-gradient(135deg, #fff0c9, #f8dfa1);
+      box-shadow: 0 10px 25px rgba(214, 180, 84, 0.18);
+    }
+
+    .maze-player {
+      background: linear-gradient(135deg, #ffe4eb, #ffc7d4);
+      transform: scale(1.04);
+      box-shadow: 0 10px 25px rgba(214, 130, 155, 0.2);
+    }
+
+    .maze-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .maze-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(120, 91, 87, 0.12);
+      color: var(--text);
+      font-size: 1.25rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .maze-btn:active {
+      transform: scale(0.96);
+      background: rgba(255,255,255,0.95);
+    }
+
     @media (max-width: 768px) {
       .timeline-sticky {
         position: relative;
@@ -259,6 +330,14 @@
         height: auto !important;
       }
     }
+
+    @media (max-width: 480px) {
+      .maze-cell {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -274,7 +353,7 @@
   </script>
 
   <!-- Background Audio -->
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic" loop preload="auto">
     <source src="favorite-song.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
@@ -284,8 +363,9 @@
     id="musicToggle"
     class="music-toggle fixed top-5 right-5 z-50 flex items-center gap-2 rounded-full border border-white/40 bg-white/40 px-4 py-2 text-sm text-stone-700 shadow-lg transition hover:scale-105 hover:bg-white/60"
     aria-label="Toggle music"
+    type="button"
   >
-    <i data-lucide="volume-2" class="w-4 h-4"></i>
+    <i data-lucide="volume-x" class="w-4 h-4"></i>
     <span id="musicLabel">Play Music</span>
   </button>
 
@@ -533,6 +613,7 @@
             <button
               id="generateReason"
               class="btn-romance inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-white transition hover:-translate-y-0.5 hover:bg-stone-800"
+              type="button"
             >
               <i data-lucide="refresh-cw" class="w-4 h-4"></i>
               Generate a Reason
@@ -541,6 +622,7 @@
             <button
               id="randomReason"
               class="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/70 px-6 py-3 text-stone-700 transition hover:bg-white"
+              type="button"
             >
               <i data-lucide="shuffle" class="w-4 h-4"></i>
               Surprise Me
@@ -563,6 +645,58 @@
           <p class="mt-8 font-romance text-3xl text-stone-800">
             Happy Birthday, my love ❤️
           </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAZE GAME -->
+  <section id="maze-game" class="px-6 py-24 md:py-28">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center" data-aos="fade-up">
+        <p class="mb-3 text-sm uppercase tracking-[0.32em] text-stone-500">Little Game</p>
+        <h2 class="section-heading font-romance text-5xl md:text-6xl font-semibold text-stone-800">
+          Find Your Way To My Gift 🎁
+        </h2>
+        <p class="mx-auto mt-6 max-w-2xl text-stone-600 leading-relaxed">
+          A tiny game for my baby — guide the heart through the maze and reach the birthday gift.
+        </p>
+      </div>
+
+      <div class="mt-12 glass rounded-[2rem] p-6 md:p-10" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex flex-col items-center">
+          <div class="mb-5 text-center">
+            <p class="text-sm uppercase tracking-[0.22em] text-stone-500">Controls</p>
+            <p class="mt-2 text-stone-600">
+              Use <span class="font-semibold">arrow keys</span> or <span class="font-semibold">WASD</span> to move
+            </p>
+          </div>
+
+          <div id="mazeWrapper" class="w-full flex flex-col items-center">
+            <div id="mazeBoard" class="maze-board"></div>
+
+            <p id="mazeStatus" class="mt-5 text-center text-stone-600">
+              Start at the heart and make your way to the gift 💗
+            </p>
+
+            <button
+              id="resetMaze"
+              class="mt-5 inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-white transition hover:-translate-y-0.5 hover:bg-stone-800"
+              type="button"
+            >
+              Reset Maze
+            </button>
+
+            <!-- Mobile controls -->
+            <div class="maze-controls mt-8 md:hidden">
+              <button class="maze-btn" data-dir="up" type="button">↑</button>
+              <div class="flex gap-3">
+                <button class="maze-btn" data-dir="left" type="button">←</button>
+                <button class="maze-btn" data-dir="down" type="button">↓</button>
+                <button class="maze-btn" data-dir="right" type="button">→</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -613,51 +747,56 @@
     // Music toggle
     const bgMusic = document.getElementById("bgMusic");
     const musicToggle = document.getElementById("musicToggle");
-    const musicLabel = document.getElementById("musicLabel");
-    let isPlaying = false;
+    let hasStartedMusic = false;
 
     function setMusicUI(playing) {
-      musicLabel.textContent = playing ? "Mute Music" : "Play Music";
       musicToggle.innerHTML = `
         <i data-lucide="${playing ? 'volume-2' : 'volume-x'}" class="w-4 h-4"></i>
-        <span id="musicLabel">${playing ? 'Mute Music' : 'Play Music'}</span>
+        <span id="musicLabel">${playing ? 'Pause Music' : 'Play Music'}</span>
       `;
       lucide.createIcons();
     }
 
-    musicToggle.addEventListener("click", async () => {
+    async function startMusic() {
       try {
-        if (!isPlaying) {
-          await bgMusic.play();
-          bgMusic.volume = 0.35;
-          isPlaying = true;
-        } else {
-          bgMusic.muted = !bgMusic.muted;
-        }
-
-        if (bgMusic.muted) {
-          setMusicUI(false);
-        } else {
-          setMusicUI(true);
-        }
+        bgMusic.volume = 0.35;
+        bgMusic.muted = false;
+        await bgMusic.play();
+        hasStartedMusic = true;
+        setMusicUI(true);
       } catch (err) {
-        console.log("Autoplay blocked until user interaction.");
+        console.log("Playback was blocked until user interaction.");
+      }
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+      setMusicUI(false);
+    }
+
+    musicToggle.addEventListener("click", async (e) => {
+      e.stopPropagation();
+
+      if (bgMusic.paused) {
+        await startMusic();
+      } else {
+        pauseMusic();
       }
     });
 
-    // Start playing music when user clicks anywhere meaningful first time
-    document.addEventListener("click", async function autoStartMusic() {
-      if (!isPlaying) {
-        try {
-          await bgMusic.play();
-          bgMusic.volume = 0.35;
-          isPlaying = true;
-          bgMusic.muted = false;
-          setMusicUI(true);
-        } catch (e) {}
+    // Try to start after first user interaction anywhere on page
+    function initMusicOnce() {
+      if (!hasStartedMusic) {
+        startMusic();
       }
-      document.removeEventListener("click", autoStartMusic);
-    }, { once: true });
+      document.removeEventListener("click", initMusicOnce);
+      document.removeEventListener("keydown", initMusicOnce);
+      document.removeEventListener("touchstart", initMusicOnce);
+    }
+
+    document.addEventListener("click", initMusicOnce, { once: true });
+    document.addEventListener("keydown", initMusicOnce, { once: true });
+    document.addEventListener("touchstart", initMusicOnce, { once: true });
 
     // 25 Reasons
     const reasons = [
@@ -731,7 +870,7 @@
 
     function updateTimelineScroll() {
       if (window.innerWidth <= 768) {
-        cards.forEach((card, index) => {
+        cards.forEach((card) => {
           const rect = card.getBoundingClientRect();
           if (rect.top < window.innerHeight * 0.85) {
             card.classList.add("revealed");
@@ -767,6 +906,133 @@
     window.addEventListener("scroll", updateTimelineScroll);
     window.addEventListener("resize", updateTimelineScroll);
     window.addEventListener("load", updateTimelineScroll);
+
+    // =========================
+    // MINI MAZE GAME
+    // =========================
+    const mazeLayout = [
+      [1,1,1,1,1,1,1,1,1],
+      [1,2,0,0,1,0,0,0,1],
+      [1,0,1,0,1,0,1,0,1],
+      [1,0,1,0,0,0,1,0,1],
+      [1,0,1,1,1,0,1,0,1],
+      [1,0,0,0,1,0,1,0,1],
+      [1,1,1,0,1,0,1,0,1],
+      [1,0,0,0,0,0,0,3,1],
+      [1,1,1,1,1,1,1,1,1]
+    ];
+
+    const mazeBoard = document.getElementById("mazeBoard");
+    const mazeStatus = document.getElementById("mazeStatus");
+    const resetMazeBtn = document.getElementById("resetMaze");
+    const mazeControlButtons = document.querySelectorAll(".maze-btn");
+
+    let playerPos = { row: 1, col: 1 };
+    let startPos = { row: 1, col: 1 };
+    let goalPos = { row: 7, col: 7 };
+    let mazeWon = false;
+
+    function renderMaze() {
+      if (!mazeBoard) return;
+
+      mazeBoard.innerHTML = "";
+      mazeBoard.style.gridTemplateColumns = `repeat(${mazeLayout[0].length}, 1fr)`;
+
+      mazeLayout.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+          const div = document.createElement("div");
+          div.classList.add("maze-cell");
+
+          if (cell === 1) {
+            div.classList.add("maze-wall");
+          } else {
+            div.classList.add("maze-path");
+          }
+
+          if (cell === 2) {
+            div.classList.add("maze-start");
+          }
+
+          if (cell === 3) {
+            div.classList.add("maze-goal");
+            div.textContent = "🎁";
+          }
+
+          if (playerPos.row === rowIndex && playerPos.col === colIndex) {
+            div.classList.add("maze-player");
+            div.textContent = "💗";
+          }
+
+          mazeBoard.appendChild(div);
+        });
+      });
+    }
+
+    function resetMaze() {
+      playerPos = { ...startPos };
+      mazeWon = false;
+      mazeStatus.textContent = "Start at the heart and make your way to the gift 💗";
+      renderMaze();
+    }
+
+    function movePlayer(direction) {
+      if (mazeWon) return;
+
+      let nextRow = playerPos.row;
+      let nextCol = playerPos.col;
+
+      if (direction === "up") nextRow--;
+      if (direction === "down") nextRow++;
+      if (direction === "left") nextCol--;
+      if (direction === "right") nextCol++;
+
+      if (
+        nextRow < 0 ||
+        nextCol < 0 ||
+        nextRow >= mazeLayout.length ||
+        nextCol >= mazeLayout[0].length
+      ) {
+        return;
+      }
+
+      if (mazeLayout[nextRow][nextCol] === 1) {
+        mazeStatus.textContent = "Oops, that way is blocked baby 🤍";
+        return;
+      }
+
+      playerPos = { row: nextRow, col: nextCol };
+      renderMaze();
+
+      if (nextRow === goalPos.row && nextCol === goalPos.col) {
+        mazeWon = true;
+        mazeStatus.textContent = "You found the gift!!! Happy Birthday my love 🎉🎁💖";
+      } else {
+        mazeStatus.textContent = "Keep going my babyyy 💗";
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const key = e.key.toLowerCase();
+
+      if (["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(key)) {
+        e.preventDefault();
+      }
+
+      if (key === "arrowup" || key === "w") movePlayer("up");
+      if (key === "arrowdown" || key === "s") movePlayer("down");
+      if (key === "arrowleft" || key === "a") movePlayer("left");
+      if (key === "arrowright" || key === "d") movePlayer("right");
+    });
+
+    mazeControlButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        movePlayer(button.dataset.dir);
+      });
+    });
+
+    resetMazeBtn.addEventListener("click", resetMaze);
+
+    renderMaze();
   </script>
 </body>
 </html>
